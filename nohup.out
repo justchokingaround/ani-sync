@@ -1,0 +1,56 @@
+[19:39:16] Attempting to connect to syncplay.pl:8996
+[19:39:16] Attempting secure connection
+[19:39:16] Successfully reached syncplay.pl (151.80.32.178)
+2022-02-07 19:39:16.730 mpv[32692:191825423] Warning: Expected min height of view: (<NSButton: 0x7f977192f740>) to be less than or equal to 30 but got a height of 32.000000. This error will be logged once per view in violation.
+2022-02-07 19:39:16.731 mpv[32692:191825423] Warning: Expected min height of view: (<NSButton: 0x7f97718c26e0>) to be less than or equal to 30 but got a height of 32.000000. This error will be logged once per view in violation.
+2022-02-07 19:39:16.731 mpv[32692:191825423] Warning: Expected min height of view: (<NSButton: 0x7f97718c55b0>) to be less than or equal to 30 but got a height of 32.000000. This error will be logged once per view in violation.
+[19:39:17] Secure connection established (TLSv1.3)
+
+Hello chokerman,
+
+The Syncplay latest is available from http://syncplay.pl/
+
+
+[19:39:17] Successfully connected to server
+[19:39:18] chokerman is playing 'https://vidstreamingcdn.com/cdn18/619b832af8f16a88ca1397c2d4b2c846/EP.12.v1.1639299716.1080p.mp4?mac=i%2BG2Uv4SyjpzIlZz185NyXNjW4g2Xep5jVTFsFytz5g%3D&vip=185.168.9.58&expiry=1644266355363' (22:57) in room: 'ilm_room'
+In room 'ilm_room':
+(Ready) *<chokerman>* is playing:
+    File: 'https://vidstreamingcdn.com/cdn18/619b832af8f16a88ca1397c2d4b2c846/EP.12.v1.1639299716.1080p.mp4?mac=i%2BG2Uv4SyjpzIlZz185NyXNjW4g2Xep5jVTFsFytz5g%3D&vip=185.168.9.58&expiry=1644266355363' (22:57)
+[19:39:19] chokerman unpaused
+[19:39:19] You're alone in the room
+[19:39:22] Connection with server lost, attempting to reconnect
+[19:53:00] Attempting to connect to syncplay.pl:8996
+[19:53:00] Attempting secure connection
+[19:53:00] Successfully reached syncplay.pl (151.80.32.178)
+2022-02-07 19:53:01.079 mpv[33339:191838075] Warning: Expected min height of view: (<NSButton: 0x7f7fbf49d550>) to be less than or equal to 30 but got a height of 32.000000. This error will be logged once per view in violation.
+2022-02-07 19:53:01.080 mpv[33339:191838075] Warning: Expected min height of view: (<NSButton: 0x7f7fbf77c0d0>) to be less than or equal to 30 but got a height of 32.000000. This error will be logged once per view in violation.
+2022-02-07 19:53:01.080 mpv[33339:191838075] Warning: Expected min height of view: (<NSButton: 0x7f7fbf77ef30>) to be less than or equal to 30 but got a height of 32.000000. This error will be logged once per view in violation.
+[19:53:01] Secure connection established (TLSv1.3)
+
+Hello chokerman,
+
+The Syncplay latest is available from http://syncplay.pl/
+
+
+[19:53:01] Successfully connected to server
+[19:53:02] chokerman is playing 'https://vidstreamingcdn.com/cdn20/619b832af8f16a88ca1397c2d4b2c846/EP.13.v1.1639301732.1080p.mp4?mac=zt6vp40q6eJGCClUCsCSuFTDD%2FYIQvBLK3ujgJdtMeU%3D&vip=185.168.9.58&expiry=1644267179655' (22:50) in room: 'ilm_room'
+In room 'ilm_room':
+(Ready) *<chokerman>* is playing:
+    File: 'https://vidstreamingcdn.com/cdn20/619b832af8f16a88ca1397c2d4b2c846/EP.13.v1.1639301732.1080p.mp4?mac=zt6vp40q6eJGCClUCsCSuFTDD%2FYIQvBLK3ujgJdtMeU%3D&vip=185.168.9.58&expiry=1644267179655' (22:50)
+[19:53:03] chokerman unpaused
+[19:53:03] You're alone in the room
+[19:53:06] chokerman paused
+[19:53:06] chokerman unpaused
+[19:53:07] chokerman paused
+[19:53:08] chokerman unpaused
+[19:53:10] chokerman paused
+[19:53:10] chokerman unpaused
+[19:53:11] chokerman paused
+[19:53:12] chokerman unpaused
+[19:53:12] chokerman jumped from 00:01 to 08:45
+[19:53:14] chokerman paused
+[19:53:15] chokerman unpaused
+[19:53:16] chokerman jumped from 08:49 to 14:09
+[19:53:16] chokerman paused
+[19:53:16] chokerman unpaused
+[19:53:19] Connection with server lost, attempting to reconnect
