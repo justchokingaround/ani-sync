@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # version number
 VERSION="ani-sync 1.0.0"
