@@ -10,7 +10,7 @@
 
 </p>
 
-A cli to browse and watch anime. This tool scrapes the site [gogoanime](https://gogoanime.pe).
+A cli to watch anime together with syncplay. This tool scrapes the site [gogoanime](https://gogoanime.pe).
 
 <h1 align="center">
 	Showcase
