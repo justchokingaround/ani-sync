@@ -439,15 +439,15 @@ open_episode () {
 			die "Video URL not found"
 		fi
 
-player_args="/Applications/Syncplay.app/Contents/MacOS/syncplay --no-gui"
+player_args_mac="/Applications/Syncplay.app/Contents/MacOS/syncplay --no-gui"
 
 		case $player_fn in
 			*)
 				if [ "$auto_play" -eq 0 ]; then
-          nohup $player_args $video_url &
+          nohup $player_args_mac $video_url &
 				else
 					inf "Currently playing $selection_id episode" "$episode/$last_ep_number, Range: $ep_choice_start-$ep_choice_end"
-          nohup $player_args $video_url &
+          nohup $player_args_mac $video_url &
 				fi
 				;;
 		esac
