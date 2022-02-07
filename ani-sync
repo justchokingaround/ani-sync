@@ -7,6 +7,18 @@ VERSION="ani-sync 1.0.0"
 # history file path
 logfile="${XDG_CACHE_HOME:-$HOME/.cache}/ani-hsts"
 auto_play=0
+	
+# OS and player args setup
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        # Linux
+		player_args="syncplay --no-gui"
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+        # Mac OSX
+		player_args="/Applications/Syncplay.app/Contents/MacOS/syncplay --no-gui"
+elif [[ "$OSTYPE" == "msys" ]]; then
+        # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
+		player_args="..." #Path to Windows syncplay
+fi
 
 #######################
 # Auxiliary functions #
@@ -439,15 +451,13 @@ open_episode () {
 			die "Video URL not found"
 		fi
 
-player_args_mac="/Applications/Syncplay.app/Contents/MacOS/syncplay"
-
-		case $player_fn in
+	case $player_fn in
 			*)
 				if [ "$auto_play" -eq 0 ]; then
-          nohup $player_args_mac $video_url &
+                    nohup $player_args $video_url &
 				else
 					inf "Currently playing $selection_id episode" "$episode/$last_ep_number, Range: $ep_choice_start-$ep_choice_end"
-          nohup $player_args_mac $video_url &
+                    nohup $player_args $video_url &
 				fi
 				;;
 		esac
