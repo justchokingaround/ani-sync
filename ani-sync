@@ -439,7 +439,7 @@ open_episode () {
 			die "Video URL not found"
 		fi
 
-player_args_mac="/Applications/Syncplay.app/Contents/MacOS/syncplay --no-gui"
+player_args_mac="/Applications/Syncplay.app/Contents/MacOS/syncplay"
 
 		case $player_fn in
 			*)
