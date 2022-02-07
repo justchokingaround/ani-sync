@@ -10,7 +10,7 @@
 
 </p>
 
-A cli to watch anime together with syncplay. This tool scrapes the site [gogoanime](https://gogoanime.pe).
+A cli to watch anime together with syncplay. This tool scrapes the site [gogoanime](https://gogoanime.pe). Most of the code is from ani-cli.
 
 <h1 align="center">
 	Showcase
