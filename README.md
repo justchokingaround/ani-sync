@@ -20,8 +20,6 @@ A cli to watch anime together with syncplay. This tool scrapes the site [gogoani
 - [Install](#Installation)
 - [Uninstall](#Uninstall)
 - [Dependencies](#Dependencies)
-- [Contribution Guidelines](./CONTRIBUTING.md)
-- [Disclaimer](./disclaimer.md)
 
 ## Install
 
