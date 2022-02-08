@@ -454,10 +454,10 @@ open_episode () {
 	case $player_fn in
 			*)
 				if [ "$auto_play" -eq 0 ]; then
-                    nohup $player_args $video_url &
+                    nohup $player_args $video_url > /dev/null 2>&1 &
 				else
 					inf "Currently playing $selection_id episode" "$episode/$last_ep_number, Range: $ep_choice_start-$ep_choice_end"
-                    nohup $player_args $video_url &
+                    nohup $player_args $video_url > /dev/null 2>&1 &
 				fi
 				;;
 		esac
@@ -602,7 +602,7 @@ esac
 while :; do
 if [ -z "$select_first" ]; then
 	if [ "$auto_play" -eq 0 ]; then
-		inf "Currently playing $selection_id episode" "$episode/$last_ep_number"
+		inf "Currently sharing $selection_id episode" "$episode/$last_ep_number"
 	else
 		auto_play=0
 	fi
