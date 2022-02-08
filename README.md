@@ -29,7 +29,7 @@ A cli to watch anime together with syncplay. Most of the code is from [ani-cli](
 - Install and setup syncplay (the script will automatically play the video in the last room you connected to)
 
 ```sh
-git clone https://github.com/iamchokerman/ani-cli && cd ani-cli
+git clone https://github.com/iamchokerman/ani-sync && cd ani-sync
 sudo cp ani-cli /usr/local/bin/ani-sync
 ```
 
