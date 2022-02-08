@@ -30,7 +30,7 @@ A cli to watch anime together with syncplay. Most of the code is from [ani-cli](
 
 ```sh
 git clone https://github.com/iamchokerman/ani-sync && cd ani-sync
-sudo cp ani-sync /usr/local/bin/ani-sync
+sudo cp ani-sync /usr/local/bin/
 ```
 
 *Note that mpv installed through flatpak is not compatible*
