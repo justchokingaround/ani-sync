@@ -2,7 +2,9 @@
 <br>
 <a href="http://makeapullrequest.com"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"></a>
 <img src="https://img.shields.io/badge/os-mac-brightgreen"></a>
+<img src="https://img.shields.io/badge/os-linux-brightgreen"></a>
 <br>
+<a href="https://github.com/kalix123"><img src="https://img.shields.io/badge/maintainer-kalix123-purple"></a>
 <a href="https://github.com/iamchokerman"><img src="https://img.shields.io/badge/maintainer-iamchokerman-purple"></a>
 
 </p>
