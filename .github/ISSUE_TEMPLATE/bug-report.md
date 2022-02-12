@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 **Metadata (please complete the following information)**
-Version: [e.g. v1.2.0 run `ani-cli -V` to get the version]
+Version: [e.g. v1.2.0 run `ani-sync -V` to get the version]
 OS: [e.g. Windows 10 / Linux Mint 20.3]
 Shell: [e.g. zsh, run `echo $SHELL` to get your shell]
 Anime: [e.g. flcl] (if applicable)
@@ -19,14 +19,11 @@ It says something about an unsupported protocol, see screenshot.
 
 **Steps To Reproduce**
 
-1. Run `ani-cli -d flcl`
-2. Choose 2 (fooly-cooly)
-3. Choose episode 1
+1. Run `ani-sync -a 1 flcl`
 
 **Expected behavior**
-Downloading should work
+Episode should open in mpv
 
 **Screenshots (if applicable)**
-![image](https://user-images.githubusercontent.com/82055622/151030428-2e78d15f-4ba9-4d86-b6f3-8307557b4b29.png)
 
 **Additional context**
