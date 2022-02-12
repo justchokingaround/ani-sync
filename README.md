@@ -9,7 +9,7 @@
 
 </p>
 
-A cli to watch anime together with syncplay. Most of the code is from [ani-cli](https://github.com/pystardust/ani-cli). This tool scrapes the site [gogoanime](https://gogoanime.pe). All credits go to Pystardust and the maintainers of [ani-cli](https://github.com/pystardust/ani-cli).
+A cli to watch anime together with syncplay. Most of the code is from [ani-cli](https://github.com/pystardust/ani-cli). This tool scrapes the site [gogoanime](https://gogoanime.pe). All credits go to Pystardust and the maintainers of [ani-cli](https://github.com/pystardust/ani-cli). Original idea came from [kalix123](https://github.com/kalix123)
 
 <h1 align="center">
 	Showcase
