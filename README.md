@@ -23,7 +23,7 @@ A cli to watch anime together with syncplay. Most of the code is from [ani-cli](
 - [Uninstall](#Uninstall)
 - [Dependencies](#Dependencies)
 
-## Install
+## Install (Windows is currently not supported !!)
 
 - Install dependencies [(See below)](#Dependencies)
 - Install and setup syncplay (the script will automatically play the video in the last room you connected to)
