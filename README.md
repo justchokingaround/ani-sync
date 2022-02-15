@@ -46,4 +46,3 @@ sudo cp ani-sync /usr/local/bin/
 - curl
 - openssl
 - mpv - Video Player
-- aria2 - Download manager
