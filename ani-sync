@@ -421,10 +421,19 @@ open_episode () {
 		case "$player_fn" in
             			*)
 				if [ "$auto_play" -eq 0 ]; then
-                    nohup $player_args $video_url -- --force-media-title="ani-sync: $anime_id ep $episode" > /dev/null 2>&1 &
+          nohup $player_args $video_url -- --force-media-title="ani-sync: $anime_id ep $episode" > /dev/null 2>&1 &
 				else
-					inf "Currently playing $selection_id episode" "$episode/$last_ep_number, Range: $ep_choice_start-$ep_choice_end"
-                    nohup $player_args $video_url -- --force-media-title="ani-sync: $anime_id ep $episode"> /dev/null 2>&1 &
+          inf "Currently sharing $selection_id episode" "$episode/$last_ep_number, Range: $ep_choice_start-$ep_choice_end"
+          inf $video_url
+          printf "copied link to clipboard" 
+          printf "\n"
+          if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+            echo $video_url | xclip -selection clipboard
+          elif [[ "$OSTYPE" == "darwin"* ]]; then
+            echo $video_url | pbcopy
+          fi
+          nohup $player_args $video_url -- --force-media-title="ani-sync: $anime_id ep $episode"> /dev/null 2>&1 
+          sleep 2
 				fi
 				;;
 		esac
