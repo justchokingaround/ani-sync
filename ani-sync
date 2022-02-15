@@ -18,15 +18,15 @@
 # Project repository: https://github.com/iamchokerman/ani-sync
 
 # Version number
-VERSION="1.1.2"
+VERSION="1.1.3"
 
 # OS and player args setup
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         # Linux
-		player_args="syncplay --no-gui"
+		player_args="syncplay"
 elif [[ "$OSTYPE" == "darwin"* ]]; then
         # Mac OSX
-		player_args="/Applications/Syncplay.app/Contents/MacOS/syncplay --no-gui"
+		player_args="/Applications/Syncplay.app/Contents/MacOS/syncplay"
 elif [[ "$OSTYPE" == "msys" ]]; then
         # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
 		player_args="..." #Path to Windows syncplay
@@ -41,10 +41,11 @@ help_text () {
 		printf "%s\n" "$line"
 	done <<-EOF
 	Usage:
-	  $0 [-q <quality>] [-a <episode>] [<query>]
-	  $0 [-q <quality>] -c
+	  $0 [-n] [-q <quality>] [-a <episode>] [<query>]
+	  $0 [-n] [-q <quality>] -c
 	  $0 -h | -D | -U | -V
 	Options:
+    -n no gui, will open directly the video in mpv without the syncplay gui
 	  -c continue watching anime from history
 	  -a specify episode to watch
 	  -h show helptext
@@ -457,7 +458,7 @@ logfile="${XDG_CACHE_HOME:-$HOME/.cache}/ani-hsts"
 # create history file if none found
 [ -f "$logfile" ] || : > "$logfile"
 
-while getopts 'vq:chDUVa:' OPT; do
+while getopts 'q:nchDUVa:' OPT; do
 	case $OPT in
 		h)
 			help_text
@@ -484,6 +485,18 @@ while getopts 'vq:chDUVa:' OPT; do
 			version_text
 			exit 0
 			;;
+    n)
+      if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        # Linux
+        player_args="syncplay --no-gui"
+      elif [[ "$OSTYPE" == "darwin"* ]]; then
+        # Mac OSX
+        player_args="/Applications/Syncplay.app/Contents/MacOS/syncplay --no-gui"
+      elif [[ "$OSTYPE" == "msys" ]]; then
+        # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
+        player_args="..." #Path to Windows syncplay
+      fi
+      ;;
 		*)
 			help_text
 			exit 1
