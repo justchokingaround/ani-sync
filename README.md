@@ -15,7 +15,7 @@ A cli to watch anime together with syncplay. Most of the code is from [ani-cli](
 	Showcase
 </h1>
 <p align="center">
-<img src=.assets/ani-sync.gif width="100%">
+<img src=.assets/ani-sync2.gif width="100%">
 </p>
 
 ## Table of Contents
