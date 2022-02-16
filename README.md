@@ -47,6 +47,6 @@ sudo cp ani-sync /usr/local/bin/
 - openssl
 - mpv - Video Player
 
-# Optional dependencies
+## Optional dependencies
 
 - xclip (for copying url to clipboard)
