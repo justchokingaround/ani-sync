@@ -49,4 +49,4 @@ sudo cp ani-sync /usr/local/bin/
 
 ## Optional dependencies
 
-- xclip (for copying url to clipboard)
+- xclip (for copying url to clipboard on linux)
