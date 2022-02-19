@@ -419,7 +419,7 @@ open_episode () {
   case "$player_fn" in
     *)
       if [ "$auto_play" -eq 0 ]; then
-        nohup $player_args $video_url -- --force-media-title="ani-sync: $anime_id ep $episode" > /dev/null 2>&1 &
+        nohup $player_args $video_url -- --referrer="https://gogoanime.film/" --force-media-title="ani-sync: $anime_id ep $episode" > /dev/null 2>&1 &
       else
         inf "Currently sharing $selection_id episode" "$episode/$last_ep_number, Range: $ep_choice_start-$ep_choice_end"
         inf $video_url
@@ -430,7 +430,7 @@ open_episode () {
         elif [[ "$OSTYPE" == "darwin"* ]]; then
           echo $video_url | pbcopy
         fi
-        nohup $player_args $video_url -- --force-media-title="ani-sync: $anime_id ep $episode"> /dev/null 2>&1 
+        nohup $player_args $video_url -- --referrer="https://gogoanime.film/" --force-media-title="ani-sync: $anime_id ep $episode"> /dev/null 2>&1 
       fi
       ;;
   esac
