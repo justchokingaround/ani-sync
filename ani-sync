@@ -18,7 +18,7 @@
 # Project repository: https://github.com/iamchokerman/ani-sync
 
 # Version number
-VERSION="1.1.4"
+VERSION="1.1.5"
 
 # OS and player args setup
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
@@ -27,7 +27,7 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     clipboard_args="xclip -selection clipboard"
 elif [[ "$OSTYPE" == "darwin"* ]]; then
         # Mac OSX
-		player_args="/Applications/Syncplay.app/Contents/MacOS/syncplay"
+		player_args="/Applications/Syncplay.app/Contents/MacOS/Syncplay"
     clipboard_args="pbcopy"
 elif [[ "$OSTYPE" == "msys" ]]; then
         # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
@@ -55,6 +55,7 @@ help_text () {
 	  -D delete history
 	  -U fetch update from github
 	  -V print version number and exit
+    -e edit ani-hsts file in editor of choice, because i can
     you can always quit the script with ctrl+c or by pressing q and hitting enter
 EOF
 }
@@ -415,11 +416,11 @@ open_episode () {
   case "$player_fn" in
     *)
       if [ "$auto_play" -eq 0 ]; then
-        $player_args $video_url -- --referrer="https://gogoanime.film/" --force-media-title="ani-sync: $anime_id ep $episode" > /dev/null 2>&1 &
+        nohup $player_args $video_url -- --referrer="https://gogoanime.film/" --force-media-title="ani-sync: $anime_id ep $episode" > /dev/null 2>&1 &
       else
         inf "sharing $selection_id episode" "$episode/$last_ep_number, Range: $ep_choice_start-$ep_choice_end"
         printf "copied link to clipboard \n" 
-        echo $video_url | $clipboard_args 
+        echo $video_url | $clipboard_args & 
         $player_args $video_url -- --referrer="https://gogoanime.film/" --force-media-title="ani-sync: $anime_id ep $episode"> /dev/null 2>&1 
       fi
       ;;
@@ -448,7 +449,7 @@ logfile="${XDG_CACHE_HOME:-$HOME/.cache}/ani-hsts"
 # create history file if none found
 [ -f "$logfile" ] || : > "$logfile"
 
-while getopts 'q:nchDUVa:' OPT; do
+while getopts 'eq:nchDUVa:' OPT; do
 	case $OPT in
 		h)
 			help_text
@@ -477,6 +478,12 @@ while getopts 'q:nchDUVa:' OPT; do
 			;;
     n)
       player_args="${player_args} --no-gui"
+      ;;
+    e)
+      inf "enter editor, as you would in a terminal"
+      read -p "> " editor
+      $editor $logfile 
+      exit 0
       ;;
 		*)
 			help_text
