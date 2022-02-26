@@ -18,15 +18,17 @@
 # Project repository: https://github.com/iamchokerman/ani-sync
 
 # Version number
-VERSION="1.1.3"
+VERSION="1.1.4"
 
 # OS and player args setup
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         # Linux
 		player_args="syncplay"
+    clipboard_args="xclip -selection clipboard"
 elif [[ "$OSTYPE" == "darwin"* ]]; then
         # Mac OSX
 		player_args="/Applications/Syncplay.app/Contents/MacOS/syncplay"
+    clipboard_args="pbcopy"
 elif [[ "$OSTYPE" == "msys" ]]; then
         # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
 		player_args="..." #Path to Windows syncplay
@@ -41,9 +43,9 @@ help_text () {
 		printf "%s\n" "$line"
 	done <<-EOF
 	Usage:
-	  $0 [-n] [-q <quality>] [-a <episode>] [<query>]
-	  $0 [-n] [-q <quality>] -c
-	  $0 -h | -D | -U | -V
+	  ani-sync [-n] [-q <quality>] [-a <episode>] [<query>]
+	  ani-sync [-n] [-q <quality>] -c
+	  ani-sync -h | -D | -U | -V
 	Options:
     -n no gui, will open directly the video in mpv without the syncplay gui
 	  -c continue watching anime from history
@@ -53,19 +55,12 @@ help_text () {
 	  -D delete history
 	  -U fetch update from github
 	  -V print version number and exit
-	Episode selection:
-	  Add 'h' on beginning for episodes like '6.5' -> 'h6'
-	  Multiple episodes can be chosen given a range
-	    Choose episode [1-13]: 1 6
-	    This would choose episodes 1 2 3 4 5 6
-		To select the last episode use -1
-	  When selecting non-interactively, the first result will be
-	  selected, if anime is passed
-	EOF
+    you can always quit the script with ctrl+c or by pressing q and hitting enter
+EOF
 }
 
 version_text () {
-	inf "Version: $VERSION" >&2
+	inf "version $VERSION" >&2
 }
 
 die () {
@@ -82,7 +77,7 @@ update_script () {
 		if printf '%s\n' "$update" | patch "$0" - ; then
 			inf "ani-sync has been updated"
 		else
-			die "Can't update ani-sync :/"
+			die "can't update ani-sync :/"
 		fi
 	fi
 }
@@ -91,7 +86,7 @@ dep_ch () {
 	# checks if dependencies are present
 	for dep; do
 		if ! command -v "$dep" >/dev/null ; then
-			err "Program \"$dep\" not found. Please install it."
+			err "program \"$dep\" not found, install it :/" 
 			die
 		fi
 	done
@@ -135,7 +130,7 @@ search_for_unwatched () {
 
 search_another_anime () {
 	tput clear
-	prompt "Search Anime"
+	prompt "> "
 	query="$REPLY $REPLY2"
 	process_search
 }
@@ -143,9 +138,9 @@ search_another_anime () {
 search_history () {
 	tput clear
 	search_results=$(sed -n -E 's/\t[0-9]*//p' "$logfile")
-	[ -z "$search_results" ] && die "History is empty"
+	[ -z "$search_results" ] && die "history is empty"
 	search_results=$(search_for_unwatched "$search_results")
-	[ -z "$search_results" ] && die "No unwatched episodes"
+	[ -z "$search_results" ] && die "no unwatched episodes"
 	anime_selection "$search_results"
 	ep_choice_start=$(sed -n -E "s/${selection_id}\t//p" "$logfile")
 }
@@ -197,7 +192,7 @@ get_video_quality() {
 		*)
 			video_link=$(printf '%s' "$video_links" | grep -i "${quality}p" | head -n 1)
 			if [ -z "$video_link" ]; then
-				err "Current video quality is not available (defaulting to best quality)"
+				err "current video quality is not available (defaulting to best quality)"
 				quality=best
 				video_link=$(printf '%s' "$video_links" | head -n 4 | tail -n 1)
 			fi
@@ -223,18 +218,18 @@ inf () {
 
 prompt () {
         # prompts the user with message in $1-2 ($1 in blue, $2 in magenta) and saves the input to the variables in $REPLY and $REPLY2
-        printf "\033[1;35m%s\033[1;35m%s\033[1;34m: \033[0m" "$1" "$2"
+        printf "\033[1;35m%s\033[1;35m%s\033[1;34m\033[0m" "$1" "$2"
         read -r REPLY REPLY2
 }
 
 menu_line_even () {
 	# displays an even (cyan) line of a menu line with $2 as an indicator in [] and $1 as the option
-	printf "\033[1;34m[\033[1;36m%s\033[1;34m] \033[1;36m%s\033[0m\n" "$2" "$1"
+	printf "\033[1;34m(\033[1;36m%s\033[1;34m) \033[1;36m%s\033[0m\n" "$2" "$1"
 }
 
 menu_line_odd() {
 	# displays an odd (magenta) line of a menu line with $2 as an indicator in [] and $1 as the option
-	printf "\033[1;35m[\033[1;35m%s\033[1;35m] \033[1;35m%s\033[0m\n" "$2" "$1"
+	printf "\033[1;35m(\033[1;35m%s\033[1;35m) \033[1;35m%s\033[0m\n" "$2" "$1"
 }
 
 menu_line_alternate() {
@@ -265,8 +260,8 @@ is_number () {
 process_search () {
 	search_results=$(search_anime "$query")
 	while [ -z "$search_results" ]; do
-		err 'No search results found'
-		prompt 'Search Anime'
+		err ' no results lul'
+		prompt '> '
 		query="$REPLY $REPLY2"
 		search_results=$(search_anime "$query")
 	done
@@ -286,13 +281,12 @@ anime_selection () {
 		tput clear
 		choice=1
 	elif [ -z "$ep_choice_to_start" ] || { [ -n "$ep_choice_to_start" ] && [ -z "$select_first" ]; }; then
-		menu_line_strong "exit" "q"
-		prompt "Enter choice"
+		prompt "> "
 		choice="$REPLY $REPLY2"
 		while ! [ "$choice" -eq "$choice" ] 2>/dev/null || [ "$choice" -lt 1 ] || [ "$choice" -ge "$count" ] || [ "$choice" = " " ]; do
 			[ "$choice" = "q " ] && exit 0
-			err "Invalid choice entered"
-			prompt "Enter choice"
+			err "invalid choice"
+			prompt "> "
 			choice="$REPLY $REPLY2"
 		done
 	fi
@@ -319,15 +313,16 @@ episode_selection () {
 	result=$(get_dpage_link "$anime_id" "$first_ep_number")
 	[ -z "$result" ] && first_ep_number=1
 	if [ "$last_ep_number" -gt "$first_ep_number" ]; then
-		inf "Range of episodes can be specified: start_number end_number"
 		if [ -z "$ep_choice_to_start" ]; then
-			prompt "Choose episode" "[$first_ep_number-$last_ep_number]"
+			inf "episodes:""($first_ep_number-$last_ep_number)"
+      prompt "> "
 			ep_choice_start="$REPLY"
 			ep_choice_end="$REPLY2"
 			while [ "$ep_choice_start" -lt "$first_ep_number" ] 2> /dev/null || [ "$ep_choice_end" -gt "$last_ep_number" ] 2> /dev/null || [ "$ep_choice_start" -gt "$last_ep_number" ] 2> /dev/null || [ -z "$ep_choice_start" ] 2> /dev/null; do
 				if [ "$ep_choice_end" != -1 ]; then
-					err "Invalid number chosen"
-					prompt "Choose episode" "[$first_ep_number-$last_ep_number]"
+					err "invalid number"
+					inf "episodes""($first_ep_number-$last_ep_number)"
+          prompt "> "
 					ep_choice_start="$REPLY"
 					ep_choice_end="$REPLY2"
 				fi
@@ -389,11 +384,12 @@ open_episode () {
 	while [ "$episode" -gt "$last_ep_number" ] || [ -z "$episode" ]; do
 	is_number "$ep_choice_start"
 		if [ "$last_ep_number" -eq 0 ]; then
-			die "Episodes not released yet!"
+			die "episode not out yet"
 		else
-			err "Episode out of range"
+			err "episode out of range"
 		fi
-		prompt "Choose episode" "[$first_ep_number-$last_ep_number]"
+		inf "episodes:""($first_ep_number-$last_ep_number)"
+    prompt "> "
 		episode="$REPLY $REPLY2"
 	done
 	#processing half episodes
@@ -401,7 +397,7 @@ open_episode () {
 		temp_ep="$episode"
 		episode="${episode}-5"
 	fi
-	inf "Getting data for episode $episode"
+	inf "loading episode $episode..."
 	# decrypting url
 	dpage_link=$(get_dpage_link "$anime_id" "$episode")
 	video_url=$(get_video_quality "$dpage_link")
@@ -415,22 +411,16 @@ open_episode () {
   s/^${selection_id}\t[0-9]+/${selection_id}\t$((episode+1))/
   " "$logfile" > "${logfile}.new"
   kill "$PID" >/dev/null 2>&1
-  [ -z "$video_url" ] && die "Video URL not found"
+  [ -z "$video_url" ] && die "video url not found"
   case "$player_fn" in
     *)
       if [ "$auto_play" -eq 0 ]; then
-        nohup $player_args $video_url -- --referrer="https://gogoanime.film/" --force-media-title="ani-sync: $anime_id ep $episode" > /dev/null 2>&1 &
+        $player_args $video_url -- --referrer="https://gogoanime.film/" --force-media-title="ani-sync: $anime_id ep $episode" > /dev/null 2>&1 &
       else
-        inf "Currently sharing $selection_id episode" "$episode/$last_ep_number, Range: $ep_choice_start-$ep_choice_end"
-        inf $video_url
-        printf "copied link to clipboard" 
-        printf "\n"
-        if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-          echo $video_url | xclip -selection clipboard
-        elif [[ "$OSTYPE" == "darwin"* ]]; then
-          echo $video_url | pbcopy
-        fi
-        nohup $player_args $video_url -- --referrer="https://gogoanime.film/" --force-media-title="ani-sync: $anime_id ep $episode"> /dev/null 2>&1 
+        inf "sharing $selection_id episode" "$episode/$last_ep_number, Range: $ep_choice_start-$ep_choice_end"
+        printf "copied link to clipboard \n" 
+        echo $video_url | $clipboard_args 
+        $player_args $video_url -- --referrer="https://gogoanime.film/" --force-media-title="ani-sync: $anime_id ep $episode"> /dev/null 2>&1 
       fi
       ;;
   esac
@@ -486,16 +476,7 @@ while getopts 'q:nchDUVa:' OPT; do
 			exit 0
 			;;
     n)
-      if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        # Linux
-        player_args="syncplay --no-gui"
-      elif [[ "$OSTYPE" == "darwin"* ]]; then
-        # Mac OSX
-        player_args="/Applications/Syncplay.app/Contents/MacOS/syncplay --no-gui"
-      elif [[ "$OSTYPE" == "msys" ]]; then
-        # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
-        player_args="..." #Path to Windows syncplay
-      fi
+      player_args="${player_args} --no-gui"
       ;;
 		*)
 			help_text
@@ -513,7 +494,7 @@ base_url=$(curl -s -L -o /dev/null -w "%{url_effective}\n" https://gogoanime.cm)
 case $scrape in
 	query)
 		if [ -z "$*" ]; then
-			prompt "Search Anime"
+			prompt "> "
 			query="$REPLY $REPLY2"
 		else
 			if [ -n "$ep_choice_to_start" ]; then
@@ -532,7 +513,7 @@ case $scrape in
 		[ -z "$result" ] && first_ep_number=1
 		;;
 	*)
-		die "Unexpected scrape type"
+		die "unexpected scrape type"
 esac
 
 check_input
@@ -546,27 +527,20 @@ open_selection
 while :; do
 if [ -z "$select_first" ]; then
 	if [ "$auto_play" -eq 0 ]; then
-		inf "Currently sharing $selection_id episode" "$episode/$last_ep_number"
-        inf $video_url
-        printf "copied link to clipboard" 
-        printf "\n"
-        if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-          echo $video_url | xclip -selection clipboard
-        elif [[ "$OSTYPE" == "darwin"* ]]; then
-          echo $video_url | pbcopy
-        fi
+		inf "sharing $selection_id episode" "$episode/$last_ep_number"
+        printf "copied link to clipboard \n" 
+        echo $video_url | $clipboard_args
 	else
 		auto_play=0
 	fi
-	[ "$episode" -ne "$last_ep_number" ] && menu_line_alternate 'next episode' 'n'
-	[ "$episode" -ne "$first_ep_number" ] && menu_line_alternate 'previous episode' 'p'
-	[ "$last_ep_number" -ne "$first_ep_number" ] && menu_line_alternate 'select episode' 's'
-	menu_line_alternate "replay current episode" "r"
-	menu_line_alternate "search for another anime" "a"
-	menu_line_alternate "search history" "h"
-	menu_line_alternate "select quality (current: $quality)" "b"
-	menu_line_strong "exit" "q"
-	prompt "Enter choice"
+	[ "$episode" -ne "$last_ep_number" ] && menu_line_alternate 'next' 'n'
+	[ "$episode" -ne "$first_ep_number" ] && menu_line_alternate 'previous' 'p'
+	[ "$last_ep_number" -ne "$first_ep_number" ] && menu_line_alternate 'select' 's'
+	menu_line_alternate "replay" "r"
+	menu_line_alternate "search" "a"
+	menu_line_alternate "history" "h"
+	menu_line_alternate "quality ($quality)" "b"
+	prompt "> "
 	# process user choice
 	choice="$REPLY"
 	case $choice in
@@ -575,7 +549,8 @@ if [ -z "$select_first" ]; then
 			ep_choice_end=
 			;;
 		b)
-			prompt "Select quality"
+			inf "select quality"
+      prompt "> "
 			quality="$REPLY"
 			;;
 		p)
@@ -602,7 +577,7 @@ if [ -z "$select_first" ]; then
 			break;;
 		*)
 			tput clear
-			err "Invalid choice"
+			err "invalid choice"
 			continue
 			;;
 	esac
