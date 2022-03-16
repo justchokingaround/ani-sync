@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#/Applications/IINA.app/Contents/MacOS/iina-cli --mpv-referrer="https://gogoanime.film" "$video_url" &
 # ani-sync
 #
 # This program is free software: you can redistribute it and/or modify
@@ -417,13 +418,14 @@ open_episode () {
   [ -z "$video_url" ] && die "video url not found"
   case "$player_fn" in
     *)
+      trackma_title=$(printf '%s' "$anime_id" | tr '-' ' ' )
       if [ "$auto_play" -eq 0 ]; then
-        nohup $player_args $video_url -- --referrer="https://gogoanime.film/" --force-media-title="ani-sync: $anime_id ep $episode" > /dev/null 2>&1 &
+        nohup $player_args $video_url -- --referrer="https://gogoanime.film/" --force-media-title="$trackma_title $episode" > /dev/null 2>&1 &
       else
         inf "sharing $selection_id episode" "$episode/$last_ep_number, Range: $ep_choice_start-$ep_choice_end"
         printf "copied link to clipboard \n" 
         echo $video_url | $clipboard_args & 
-        $player_args $video_url -- --referrer="https://gogoanime.film/" --force-media-title="ani-sync: $anime_id ep $episode"> /dev/null 2>&1 
+        $player_args $video_url -- --referrer="https://gogoanime.film/" --force-media-title="$trackma_title $episode"> /dev/null 2>&1 
       fi
       ;;
   esac
